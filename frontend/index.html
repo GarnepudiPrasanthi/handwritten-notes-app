@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handwritten Notes Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-top: 0;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .description {
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #555;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    input[type="file"] {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f5f5f5;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #2980b9;
+    }
+    
+    button:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+    }
+    
+    #result {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .success {
+      background-color: #e8f4f8;
+      border: 1px solid #3498db;
+    }
+    
+    .error {
+      background-color: #f8e8e8;
+      border: 1px solid #e74c3c;
+    }
+    
+    .download-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: #2ecc71;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    
+    .download-link:hover {
+      background-color: #27ae60;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .info-box {
+      background-color: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #7f8c8d;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Classroom Video to Handwritten Notes</h1>
+    
+    <div class="description">
+      Transform your classroom videos into personalized handwritten notes using AI.
+    </div>
+    
+    <div class="info-box">
+      <p><strong>How it works:</strong> Upload a classroom video and your handwriting font file (.ttf). Our AI will transcribe the audio, extract key points, and generate handwritten notes in your own handwriting style.</p>
+    </div>
+    
+    <div class="form-group">
+      <label for="video">Upload Classroom Video (MP4):</label>
+      <input type="file" id="video" accept="video/mp4" />
+    </div>
+    
+    <div class="form-group">
+      <label for="font">Upload Your Handwriting Font (.ttf):</label>
+      <input type="file" id="font" accept=".ttf" />
+    </div>
+    
+    <button id="generateBtn">Generate Handwritten Notes PDF</button>
+    
+    <div class="loading" id="loadingIndicator">
+      <div class="loading-spinner"></div>
+      <p>Processing your video... This may take several minutes depending on the video length.</p>
+    </div>
+    
+    <div id="result"></div>
+  </div>
+  
+  <footer>
+    &copy; 2025 Handwritten Notes Generator
+  </footer>
+
+  <script>
+    const videoInput = document.getElementById("video");
+    const fontInput = document.getElementById("font");
+    const generateBtn = document.getElementById("generateBtn");
+    const resultDiv = document.getElementById("result");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+
+    generateBtn.onclick = async () => {
+      if (!videoInput.files.length || !fontInput.files.length) {
+        alert("Please upload both video and font files.");
+        return;
+      }
+      
+      // Show loading indicator
+      generateBtn.disabled = true;
+      loadingIndicator.style.display = "block";
+      resultDiv.innerHTML = "";
+      resultDiv.className = "";
+
+      const formData = new FormData();
+      formData.append("video", videoInput.files[0]);
+      formData.append("font", fontInput.files[0]);
+
+      try {
+        const res = await fetch("/generate", {
+          method: "POST",
+          body: formData,
+        });
+        
+        const data = await res.json();
+        
+        // Hide loading indicator
+        loadingIndicator.style.display = "none";
+
+        if (data.pdf_url) {
+          resultDiv.className = "success";
+          resultDiv.innerHTML = `
+            <p>Your handwritten notes have been successfully generated!</p>
+            <a href="${data.pdf_url}" class="download-link" target="_blank" download>Download Your Handwritten Notes PDF</a>
+          `;
+        } else if (data.error) {
+          resultDiv.className = "error";
+          resultDiv.textContent = `Error: ${data.error}`;
+        } else {
+          resultDiv.className = "error";
+          resultDiv.textContent = "Error: Could not generate notes.";
+        }
+      } catch (err) {
+        // Hide loading indicator
+        loadingIndicator.style.display = "none";
+        resultDiv.className = "error";
+        resultDiv.textContent = "Error: " + err.message;
+      }
+      
+      generateBtn.disabled = false;
+    };
+  </script>
+</body>
+</html>
