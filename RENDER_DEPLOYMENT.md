@@ -1,4 +1,4 @@
-# Render Deployment Instructions for Handwritten Notes App
+# Render Deployment Instructions for Handwritten Notes App (Lite Version)
 
 ## Prerequisites
 1. A [Render](https://render.com) account
@@ -21,11 +21,11 @@
 ## Step 3: Configure the Blueprint
 1. Render will automatically detect the `render.yaml` file
 2. Review the configuration settings:
-   - Service name: `handwritten-notes-app`
+   - Service name: `handwritten-notes-app-lite`
    - Environment: `python`
    - Build command: `pip install -r requirements.txt`
    - Start command: `gunicorn src.main:app`
-   - Plan: `free` (or choose a paid plan if needed)
+   - Plan: `free`
 
 ## Step 4: Deploy the Application
 1. Click "Apply Blueprint" to start the deployment process
@@ -37,7 +37,7 @@ If the deployment fails due to missing system dependencies, you may need to add 
 1. Go to your service in the Render dashboard
 2. Navigate to "Environment" tab
 3. Add the following environment variables if needed:
-   - Key: `APT_PKGS`, Value: `tesseract-ocr libtesseract-dev ffmpeg`
+   - Key: `APT_PKGS`, Value: `tesseract-ocr libtesseract-dev`
 
 ## Step 6: Access Your Application
 1. Once deployment is successful, Render will provide a URL to access your application
@@ -51,6 +51,7 @@ If the deployment fails due to missing system dependencies, you may need to add 
 - Check if any system dependencies are missing (like Tesseract OCR)
 
 ## Important Notes
-- The free tier of Render has limited resources, which may affect processing speed
-- Large video files may take significant time to process
-- The application requires both Whisper and Transformers models, which are downloaded during the first run
+- This is a lightweight version optimized for Render's free tier
+- It uses sample text instead of AI transcription and summarization
+- The application still demonstrates the handwriting functionality with your own font
+- Video processing is simplified to extract only a few frames
