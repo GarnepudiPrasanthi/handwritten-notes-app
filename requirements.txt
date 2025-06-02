@@ -4,11 +4,5 @@ gunicorn==21.2.0
 Pillow==10.0.0
 opencv-python==4.8.0.76
 pytesseract==0.3.10
-whisper==1.1.10
-openai-whisper==20231117
-transformers==4.35.2
-torch==2.1.0
-torchaudio==2.1.0
-torchvision==0.16.0
 numpy==1.24.3
 Werkzeug==2.3.7
