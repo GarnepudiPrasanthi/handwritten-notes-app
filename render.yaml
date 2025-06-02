@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: handwritten-notes-app
+    name: handwritten-notes-app-lite
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn src.main:app
@@ -8,3 +8,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.12
     plan: free
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 80
