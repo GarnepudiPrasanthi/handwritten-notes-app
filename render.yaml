@@ -8,7 +8,3 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.12
     plan: free
-    scaling:
-      minInstances: 1
-      maxInstances: 2
-      targetMemoryPercent: 80
