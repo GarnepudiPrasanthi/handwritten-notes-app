@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Handwritten Notes Generator</title>
+  <title>Handwritten Notes Generator </title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -137,6 +137,17 @@
       font-size: 0.9rem;
     }
     
+    .lite-badge {
+      display: inline-block;
+      background-color: #f39c12;
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    
     footer {
       margin-top: 2rem;
       text-align: center;
@@ -158,14 +169,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>Classroom Video to Handwritten Notes</h1>
+    <h1>Classroom Video to Handwritten Notes <span class="lite-badge">LITE</span></h1>
     
     <div class="description">
-      Transform your classroom videos into personalized handwritten notes using AI.
+      Transform your classroom videos into personalized handwritten notes using your own handwriting style.
     </div>
     
     <div class="info-box">
-      <p><strong>How it works:</strong> Upload a classroom video and your handwriting font file (.ttf). Our AI will transcribe the audio, extract key points, and generate handwritten notes in your own handwriting style.</p>
+      <p><strong>How it works:</strong> Upload a classroom video and your handwriting font file (.ttf). Our app will extract key frames from the video and generate handwritten notes in your own handwriting style.</p>
     </div>
     
     <div class="form-group">
@@ -182,14 +193,14 @@
     
     <div class="loading" id="loadingIndicator">
       <div class="loading-spinner"></div>
-      <p>Processing your video... This may take several minutes depending on the video length.</p>
+      <p>Processing your video... This may take a minute.</p>
     </div>
     
     <div id="result"></div>
   </div>
   
   <footer>
-    &copy; 2025 Handwritten Notes Generator
+    &copy; 2025 Handwritten Notes Generator Lite
   </footer>
 
   <script>
